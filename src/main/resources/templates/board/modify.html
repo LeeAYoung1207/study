@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+
+  <th:block th:fragment="content">
+    <form action="/board/modify" method="post">
+
+      <input type="hidden" name="page" th:value="${requestDTO.page}">
+      <input type="hidden" name="searchType" th:value="${requestDTO.searchType}">
+      <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
+
+      <div class="form-group">
+        <label><b>Bno</b></label>
+        <input type="text" class="form-control" name="bno" th:value="${dto.bno}" readonly>
+      </div>
+      <div class="form-group">
+        <label><b>Title</b></label>
+        <input type="text" class="form-control" name="title" th:value="${dto.title}">
+      </div>
+      <div class="form-group">
+        <label><b>Content</b></label>
+        <textarea rows="5" name="content" class="form-control" >[[${dto.content}]]</textarea>
+      </div>
+      <div class="form-group">
+        <label><b>Writer</b></label>
+        <input type="text" class="form-control" name="member" th:value="${dto.member}" readonly>
+      </div>
+      <div class="form-group">
+        <label><b>RegDate</b></label>
+        <input type="text" class="form-control"  th:value="${#temporals.format(dto.regDate,'yyyy/MM/dd HH:mm:ss')}" readonly>
+      </div>
+      <div class="form-group">
+        <label><b>modDate</b></label>
+        <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate,'yyyy/MM/dd HH:mm:ss')}" readonly>
+      </div>
+
+
+
+        <button type="button" class="btn btn-light listBtn">
+          목록
+        </button>
+      <button type="button" class="btn btn-success modifyBtn">
+        완료
+      </button>
+      <button type="button" class="btn btn-danger removeBtn">
+        삭제
+      </button>
+
+
+    </form>
+    <script th:inline="javascript">
+        let actionForm = $("form");
+
+        $(".removeBtn").click(function(){
+          actionForm
+            .attr("action", "/board/remove")
+            .attr("method", "post");
+
+          actionForm.submit();
+         });
+
+        $(".modifyBtn").click(function(){
+        if(!confirm("수정하시겠습니까?")){
+          return;
+
+          }
+
+          actionForm
+            .attr("action", "/board/modify")
+            .attr("method", "post")
+            .submit();
+            });
+
+          $(".listBtn").click(function(){
+          console.log('test');
+          let page = $("input[name='page']");
+          let searchType = $("input[name='searchType']");
+          let keyword = $("input[name='keyword']")
+
+          actionForm.empty();
+
+          actionForm.append(page);
+          actionForm.append(searchType);
+          actionForm.append(keyword);
+
+          actionForm
+            .attr("action", "/board/list")
+            .attr("method","get")
+            .submit();
+
+          })
+
+      </script>
+  </th:block>
+
+</th:block>
+
+</html>
+

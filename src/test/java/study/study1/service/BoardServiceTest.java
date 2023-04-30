@@ -44,4 +44,16 @@ public class BoardServiceTest {
     public void removeTest(){
         boardService.removeWithReplies(4L);
     }
+
+    @Test
+    public void modifyTest(){
+        BoardDTO dto = BoardDTO.builder()
+                .title("제목은!")
+                .content("내용은?")
+                .bno(14L)
+                .build();
+        boardService.modify(dto);
+    }
+
 }
+

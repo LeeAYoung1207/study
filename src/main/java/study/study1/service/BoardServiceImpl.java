@@ -2,7 +2,6 @@ package study.study1.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import study.study1.entity.Member2;
 import study.study1.repository.Board2Repository;
 import study.study1.repository.Reply2Repository;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -63,6 +63,20 @@ public class BoardServiceImpl implements BoardService {
 
         replyRepository.deleteByBno(bno);
         boardRepository.deleteById(bno);
+
+    }
+
+    @Override
+    public void modify(BoardDTO boardDTO) {
+        Optional<Board2> findBoard = boardRepository.findById(boardDTO.getBno());
+        if (findBoard.isPresent()){
+            Board2 board = findBoard.get();
+
+            board.changeTitle(boardDTO.getTitle());
+            board.changeContent(boardDTO.getContent());
+
+            boardRepository.save(board);
+        }
 
     }
 }

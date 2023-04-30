@@ -22,5 +22,13 @@ public class Board2 extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Member2 writer;
 
+    public void changeTitle(String title){
+        this.title = title;
+    }
+
+    public void changeContent(String content){
+        this.content = content;
+    }
+
 
 }

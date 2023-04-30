@@ -16,6 +16,8 @@ public interface BoardService {
 
     void removeWithReplies(Long bno);
 
+    void modify(BoardDTO boardDTO);
+
     default Board2 dtoToEntity(BoardDTO dto){
 
         Member2 member = Member2.builder()
